@@ -40,16 +40,18 @@ public class OrderOneWinningStrategy implements GameWinningStrategy {
         }
         colSymbolCounts.get(col).put(symbol, colSymbolCounts.get(col).get(symbol) + 1);
 
-        if (row == col && !topLeftDiagSymbolCounts.containsKey(symbol)){
+        if (row == col && !topLeftDiagSymbolCounts.containsKey(symbol)) {
             topLeftDiagSymbolCounts.put(symbol, 0);
+        } else if (row == col) {
+            topLeftDiagSymbolCounts.put(symbol, topLeftDiagSymbolCounts.get(symbol) + 1);
         }
-        topLeftDiagSymbolCounts.put(symbol, topLeftDiagSymbolCounts.get(symbol) + 1);
 
         if (row + col == dimension - 1 &&
                 !topRightDiagSymbolCounts.containsKey(symbol)){
             topRightDiagSymbolCounts.put(symbol, 0);
+        }else if (row + col == dimension - 1) {
+            topRightDiagSymbolCounts.put(symbol, topRightDiagSymbolCounts.get(symbol) + 1);
         }
-        topRightDiagSymbolCounts.put(symbol, topRightDiagSymbolCounts.get(symbol) + 1);
 
         if (rowSymbolCounts.get(row).get(symbol) == dimension ||
             colSymbolCounts.get(col).get(symbol) == dimension) {

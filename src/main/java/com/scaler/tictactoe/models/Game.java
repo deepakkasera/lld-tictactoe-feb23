@@ -1,9 +1,13 @@
 package com.scaler.tictactoe.models;
 
+import com.scaler.tictactoe.strategies.gamewinningstrategy.GameWinningStrategy;
+import com.scaler.tictactoe.strategies.gamewinningstrategy.OrderOneWinningStrategy;
 import excpetions.InvalidGameBuildException;
 
+import javax.swing.plaf.IconUIResource;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.PrimitiveIterator;
 
 public class Game {
     private Board board;
@@ -11,6 +15,17 @@ public class Game {
     private List<Move> moves;
     private GameStatus gameStatus;
     private int nextPlayerIndex;
+    private GameWinningStrategy gameWinningStrategy;
+
+    private Player winner;
+
+    public GameWinningStrategy getGameWinningStrategy() {
+        return gameWinningStrategy;
+    }
+
+    public void setGameWinningStrategy(GameWinningStrategy gameWinningStrategy) {
+        this.gameWinningStrategy = gameWinningStrategy;
+    }
 
     public static Builder getBuilder() {
         return new Builder();
@@ -60,6 +75,7 @@ public class Game {
     }
 
     public void makeNextMove() {
+        //System.out.println(players);
         Player playerToMove = players.get(nextPlayerIndex);
 
         System.out.println("It is " + playerToMove.getName() + "'s turn to play");
@@ -68,18 +84,32 @@ public class Game {
 
         int row = move.getCell().getRow();
         int col = move.getCell().getCol();
+        Cell cell = move.getCell();
 
         System.out.println("Player is making a move at row: " + row + " & col: " + col);
 
         //Game will validate the move. -> TODO.
 
+        cell.setPlayer(playerToMove);
         board.getBoard().get(row).get(col).setPlayer(playerToMove);
         board.getBoard().get(row).get(col).setCellState(CellState.FILLED);
+        moves.add(move);
 
+        if (gameWinningStrategy.checkWinner(board, playerToMove, cell)) {
+            gameStatus = GameStatus.ENDED;
+            winner = playerToMove;
+        }
         nextPlayerIndex = (nextPlayerIndex+1) % players.size();
 
         // Winning Strategy.
+    }
 
+    public Player getWinner() {
+        return winner;
+    }
+
+    public void setWinner(Player winner) {
+        this.winner = winner;
     }
 
     public static class Builder {
@@ -127,9 +157,10 @@ public class Game {
             Game game = new Game();
             game.setGameStatus(GameStatus.IN_PROGRESS);
             game.setBoard(new Board(dimension));
-            game.setPlayers(new ArrayList<>());
+            game.setPlayers(players);
             game.setMoves(new ArrayList<>());
             game.setNextPlayerIndex(0);
+            game.setGameWinningStrategy(new OrderOneWinningStrategy(dimension));
             return game;
         }
     }

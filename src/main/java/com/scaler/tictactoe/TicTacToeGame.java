@@ -18,7 +18,7 @@ public class TicTacToeGame {
         int dimension = scanner.nextInt();
 
         System.out.println("Do you want to have a bot in the game ? y/n");
-        String isBot = scanner.nextLine();
+        String isBot = scanner.next();
         List<Player> players = new ArrayList<>();
 
         int numberOfPlayer = dimension - 1;
@@ -28,27 +28,45 @@ public class TicTacToeGame {
 
         for (int i = 0; i < numberOfPlayer; i++) {
             System.out.println("What is the name of the player :");
-            String name = scanner.nextLine();
+            String name = scanner.next();
 
             System.out.println("What is the symbol of the player :");
-            String symbol = scanner.nextLine();
+            String symbol = scanner.next();
 
             players.add(new Player(name, symbol.charAt(0), PlayerType.HUMAN));
         }
 
         if (isBot.charAt(0) == 'y') {
             System.out.println("What is the name of the bot :");
-            String name = scanner.nextLine();
+            String name = scanner.next();
 
             System.out.println("What is the symbol of the bot :");
-            String symbol = scanner.nextLine();
+            String symbol = scanner.next();
 
             players.add(new Bot(name, symbol.charAt(0), PlayerType.BOT, BotDifficultyLevel.EASY));
         }
 
         //players list is complete.
         //Start the game.
-
         Game game = gameController.createGame(dimension, players);
+
+        while (game.getGameStatus().equals(GameStatus.IN_PROGRESS)) {
+            System.out.println("This is the current board: ");
+            gameController.displayBoard(game);
+
+            System.out.println("Do you want to undo ? y/n");
+            String input = scanner.next();
+
+            if (input.equals("y")) {
+                gameController.undo();
+            } else {
+                gameController.executeNextMove(game);
+            }
+        }
+
+        System.out.println("Game has ended, Result is: ");
+        if (game.getGameStatus().equals(GameStatus.ENDED)) {
+            System.out.println("Winner is : " + gameController.getWinner(game).getName());
+        }
     }
 }

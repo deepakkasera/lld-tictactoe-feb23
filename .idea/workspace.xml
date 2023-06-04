@@ -52,6 +52,19 @@
   }
 }]]></component>
   <component name="RunManager">
+    <configuration name="TicTacToeGame" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.scaler.tictactoe.TicTacToeGame" />
+      <module name="tictactoejan23" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.scaler.tictactoe.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration default="true" type="JetRunConfigurationType">
       <module name="lld-tictactoe-feb23" />
       <method v="2">
@@ -97,6 +110,11 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <method v="2" />
     </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.TicTacToeGame" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
