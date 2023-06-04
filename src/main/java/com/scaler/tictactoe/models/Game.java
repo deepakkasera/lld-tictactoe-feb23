@@ -55,6 +55,33 @@ public class Game {
         this.nextPlayerIndex = nextPlayerIndex;
     }
 
+    public void displayBoard() {
+        this.board.display();
+    }
+
+    public void makeNextMove() {
+        Player playerToMove = players.get(nextPlayerIndex);
+
+        System.out.println("It is " + playerToMove.getName() + "'s turn to play");
+
+        Move move = playerToMove.decideMove(this.board);
+
+        int row = move.getCell().getRow();
+        int col = move.getCell().getCol();
+
+        System.out.println("Player is making a move at row: " + row + " & col: " + col);
+
+        //Game will validate the move. -> TODO.
+
+        board.getBoard().get(row).get(col).setPlayer(playerToMove);
+        board.getBoard().get(row).get(col).setCellState(CellState.FILLED);
+
+        nextPlayerIndex = (nextPlayerIndex+1) % players.size();
+
+        // Winning Strategy.
+
+    }
+
     public static class Builder {
         private int dimension;
         private List<Player> players;
@@ -79,7 +106,11 @@ public class Game {
 
         private boolean isValid() {
             //validation
-            if (dimension < 1) {
+            if (dimension < 3) {
+                return false;
+            }
+
+            if (players.size() != dimension - 1) {
                 return false;
             }
 

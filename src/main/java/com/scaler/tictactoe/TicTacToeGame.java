@@ -1,18 +1,18 @@
 package com.scaler.tictactoe;
 
-import com.scaler.tictactoe.models.Bot;
-import com.scaler.tictactoe.models.BotDifficultyLevel;
-import com.scaler.tictactoe.models.Player;
-import com.scaler.tictactoe.models.PlayerType;
+import com.scaler.tictactoe.controller.GameController;
+import com.scaler.tictactoe.models.*;
+import excpetions.InvalidGameBuildException;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class TicTacToeGame {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InvalidGameBuildException {
         //System.out.println("Hello world!");
         Scanner scanner = new Scanner(System.in);
+        GameController gameController = new GameController();
 
         System.out.println("What is the dimension of the game");
         int dimension = scanner.nextInt();
@@ -46,6 +46,9 @@ public class TicTacToeGame {
             players.add(new Bot(name, symbol.charAt(0), PlayerType.BOT, BotDifficultyLevel.EASY));
         }
 
-        //Insert the bot in the players.
+        //players list is complete.
+        //Start the game.
+
+        Game game = gameController.createGame(dimension, players);
     }
 }
